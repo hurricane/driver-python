@@ -9,7 +9,6 @@ import socket
 from binascii import hexlify
 from struct import pack, unpack
 from collections import deque
-from types import NoneType
 from cStringIO import StringIO
 from sys import stdin, stdout
 
@@ -921,7 +920,7 @@ def encode(data, stream, send_magic_byte=True):
         encode_pid(data, stream)
     elif data_type == tuple:
         encode_tuple(data, stream)
-    elif data_type == NoneType:
+    elif data_type == type(None):
         encode_none(data, stream)
     elif data_type == str:
         encode_str(data, stream)
