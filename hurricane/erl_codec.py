@@ -400,7 +400,7 @@ def proplist_to_dict(proplist):
 
 def decode_atom_ext(stream):
     """Decode and return an Erlang atom."""
-    atom_len, = unpack('>h', stream.read(2))
+    atom_len, = unpack('>H', stream.read(2))
     return Atom(stream.read(atom_len))
 
 
@@ -456,7 +456,7 @@ def decode_nil_ext(_stream):
 
 def decode_string_ext(stream):
     """Decode and return a string."""
-    str_len, = unpack('>h', stream.read(2))
+    str_len, = unpack('>H', stream.read(2))
     return stream.read(str_len)
 
 
@@ -518,7 +518,7 @@ def decode_large_big_ext(stream):
 
 def decode_new_reference_ext(stream):
     """Decode and return an Erlang "new reference"."""
-    length, = unpack('>h', stream.read(2))
+    length, = unpack('>H', stream.read(2))
     atom = decode(stream, False)
     creation = ord(stream.read(1))
     identifiers = deque()
@@ -755,7 +755,7 @@ def encode_atom(data, stream):
         stream.write(chr(name_len))
     else:
         stream.write(chr(100))
-        stream.write(pack('>h', name_len))
+        stream.write(pack('>H', name_len))
     stream.write(data.name)
 
 
@@ -809,7 +809,7 @@ def encode_str(data, stream):
         encode_list(data, stream)
     else:
         stream.write(chr(107))
-        stream.write(pack('>h', data_len))
+        stream.write(pack('>H', data_len))
         stream.write(data)
 
 
@@ -834,7 +834,7 @@ def encode_new_reference(data, stream):
     """Encode an Erlang new reference into the stream."""
     stream.write(chr(114))
     ids_len = len(data.ids)
-    stream.write(pack('>h', ids_len))
+    stream.write(pack('>H', ids_len))
     encode(data.atom, stream, False)
     stream.write(chr(data.creation))
     for identifier in data.ids:
