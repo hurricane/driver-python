@@ -16,6 +16,13 @@ except ImportError:
 from sys import stdin, stdout
 
 
+# Python 3 does not have longs
+try:
+    long
+except NameError:
+    long = int
+
+
 class StdioWrapper(object):
     """
     Wraps Standard I/O input and output facilities; exposes a standard
