@@ -2,7 +2,10 @@
 
 from hurricane import erl_codec
 from unittest import TestCase
-from cStringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 
 def byte_list_from_stringio(io_obj):

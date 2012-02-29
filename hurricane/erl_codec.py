@@ -9,7 +9,10 @@ import socket
 from binascii import hexlify
 from struct import pack, unpack
 from collections import deque
-from cStringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from io import StringIO
 from sys import stdin, stdout
 
 
