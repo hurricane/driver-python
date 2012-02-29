@@ -76,7 +76,7 @@ class EncodeTest(TestCase):
     def test_encode_long_integer(self):
         """Test encoding a long integer."""
         expected = [131, 110, 8, 0, 254, 255, 179, 206, 71, 38, 88, 103]
-        input_value = 7446744073709551614L
+        input_value = 7446744073709551614
 
         stream = StringIO()
         erl_codec.encode(input_value, stream)
