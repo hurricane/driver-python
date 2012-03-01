@@ -6,6 +6,7 @@ A WSGI server for Hurricane.
 
 import os
 import sys
+import traceback
 from datetime import datetime
 from cStringIO import StringIO
 from types import GeneratorType
@@ -164,7 +165,12 @@ def main():
             continue
 
         meta = WsgiMeta()
-        result = app(wsgienv, meta)
+        try:
+            result = app(wsgienv, meta)
+        except Exception, _ex:
+            meta('500 Internal Server Error', [])
+            result = '<h1>500 &mdash; Internal Server Error</h1>'
+            sys.stderr.write(traceback.format_exc())
         if not isinstance(result, basestring):
             result = ''.join(result)
         httpresp.data = (meta.code, meta.headers, Binary(result))
