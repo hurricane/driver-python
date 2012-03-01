@@ -168,7 +168,7 @@ def main():
         try:
             result = app(wsgienv, meta)
         except Exception, _ex:
-            meta('500 Internal Server Error', [])
+            meta('500 Internal Server Error', [('Content-Type', 'text/html')])
             result = '<h1>500 &mdash; Internal Server Error</h1>'
             sys.stderr.write(traceback.format_exc())
         if not isinstance(result, basestring):
