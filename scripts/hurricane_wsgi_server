@@ -28,7 +28,9 @@ def to_wsgi_dict(data):
         'wsgi.run_once': False,
         'wsgi.version': (1, 0)}
     for key, value in data:
-        if key.name == 'listen_port':
+        if key.name == 'peer':
+            wsgi_dict['REMOTE_ADDR'] = str(value)
+        elif key.name == 'listen_port':
             wsgi_dict['SERVER_PORT'] = str(value)
         elif key.name == 'server_name':
             wsgi_dict['SERVER_NAME'] = value
@@ -175,8 +177,9 @@ def main():
             result = ''.join(result)
         httpresp.data = (meta.code, meta.headers, Binary(result))
 
-        print '[%s] %s %s %s %s' % (
+        print '[%s] %s %s %s %s %s' % (
             datetime.now(),
+            wsgienv['REMOTE_ADDR'],
             wsgienv['SERVER_PROTOCOL'],
             wsgienv['REQUEST_METHOD'],
             wsgienv['REQUEST_URI'],
