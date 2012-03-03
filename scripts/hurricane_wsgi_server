@@ -46,6 +46,9 @@ def to_wsgi_dict(data):
             wsgi_dict['PATH_INFO'] = path_parts[2]
             wsgi_dict['QUERY_STRING'] = path_parts[4]
         elif key.name == 'headers':
+            if value is None:
+                continue
+
             for header_key, header_value in value:
                 if isinstance(header_key, Atom):
                     header_key = header_key.name.lower()
